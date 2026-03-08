@@ -9,14 +9,14 @@ struct MaterialConstants
     uint MaterialIndex;
 };
 
-ConstantBuffer<MaterialConstants> materialConstants : register(b0, space0);
-Texture2D g_txDiffuse : register(t0);
-Texture2D g_txMats[] : register(t1);
-SamplerState g_sampler : register(s0);
+ConstantBuffer<MaterialConstants> MaterialConstants : register(b0, space0);
+Texture2D DiffuseTexture : register(t0);
+Texture2D MaterialTextures[] : register(t1);
+SamplerState Sampler : register(s0);
 
-float4 main(PSInput input) : SV_TARGET
+float4 main(PSInput Input) : SV_TARGET
 {
-    float3 Diffuse = g_txDiffuse.Sample(g_sampler, input.Uv).rgb;
-    float3 Material = g_txMats[materialConstants.MaterialIndex].Sample(g_sampler, input.Uv).rgb;
+    float3 Diffuse = DiffuseTexture.Sample(Sampler, Input.Uv).rgb;
+    float3 Material = MaterialTextures[MaterialConstants.MaterialIndex].Sample(Sampler, Input.Uv).rgb;
     return float4(Diffuse * Material, 1.0f);
 }

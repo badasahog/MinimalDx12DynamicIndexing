@@ -1,28 +1,28 @@
 struct VSInput
 {
-    float3 position : POSITION;
-    float2 uv : TEXCOORD0;
+    float3 Position : POSITION;
+    float2 Uv : TEXCOORD0;
 };
 
 struct PSInput
 {
-    float4 position : SV_POSITION;
-    float2 uv : TEXCOORD0;
+    float4 Position : SV_POSITION;
+    float2 Uv : TEXCOORD0;
 };
 
 struct CbufferType
 {
-    float4x4 g_mWorldViewProj;
+    float4x4 MVP;
 };
 
-ConstantBuffer<CbufferType> materialConstants : register(b0, space0);
+ConstantBuffer<CbufferType> MaterialConstants : register(b0, space0);
 
-PSInput main(VSInput input)
+PSInput main(VSInput Input)
 {
-    PSInput result;
+    PSInput Result;
     
-    result.position = mul(float4(input.position, 1.0f), materialConstants.g_mWorldViewProj);
-    result.uv = input.uv;
+    Result.Position = mul(float4(Input.Position, 1.0f), MaterialConstants.MVP);
+    Result.Uv = Input.Uv;
     
-    return result;
+    return Result;
 }
